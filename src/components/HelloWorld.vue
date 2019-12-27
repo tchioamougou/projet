@@ -16,10 +16,10 @@
                   :icon-left="item.icon"
                   rounded
                   @click="chose(item)"
-                  :type="item.chose ? 'is-primary':'none'"
+                  :type="item.chose ? 'is-primary' : 'none'"
                   v-model="item.chose"
                 ></b-button>
-                <p class="sub-title">{{item.text}}</p>
+                <p class="sub-title">{{ item.text }}</p>
               </div>
             </div>
           </div>
@@ -60,7 +60,7 @@
           </div>
         </div>
         <hr />
-        <div class="columns">
+        <div class="columns" v-if="showhouse">
           <div class="column is-6">
             <div class="diva">surface habitable</div>
             <div class="columns">
@@ -114,10 +114,13 @@
                   :icon-left="item.icon"
                   rounded
                   @click="chose(item)"
-                  :type="item.chose ? 'is-primary':'none'"
+                  :type="item.chose ? 'is-primary' : 'none'"
                   v-model="item.chose"
+                >
+                  <b-icon icon="src\assets\icons8-porte-de-garage-50.png">
+                  </b-icon
                 ></b-button>
-                <p class="sub-title">{{item.text}}</p>
+                <p class="sub-title">{{ item.text }}</p>
               </div>
             </div>
           </div>
@@ -127,9 +130,15 @@
         <div>
           <section>
             <div class="block">
-              <b-checkbox v-model="checkboxGroup" native-value="Cuisine">Cuisine séparée</b-checkbox>
-              <b-checkbox v-model="checkboxGroup" native-value="Toilette">Toilette séparée</b-checkbox>
-              <b-checkbox v-model="checkboxGroup" native-value="Eau">Sale d'eau(douche)</b-checkbox>
+              <b-checkbox v-model="checkboxGroup" native-value="Cuisine"
+                >Cuisine séparée</b-checkbox
+              >
+              <b-checkbox v-model="checkboxGroup" native-value="Toilette"
+                >Toilette séparée</b-checkbox
+              >
+              <b-checkbox v-model="checkboxGroup" native-value="Eau"
+                >Sale d'eau(douche)</b-checkbox
+              >
             </div>
           </section>
         </div>
@@ -161,11 +170,15 @@ export default {
   methods: {
     chose(item) {
       item.chose = !item.chose;
+      if (item.text == "villa") {
+        this.showhouse = item.chose;
+      }
     }
   },
 
   data() {
     return {
+      showhouse: false,
       typeAlouer: [
         {
           text: "Appartement",
@@ -204,7 +217,7 @@ export default {
         },
         {
           text: "Bureau",
-          icon: "apps",
+          icon: "office",
           chose: false
         },
         {
