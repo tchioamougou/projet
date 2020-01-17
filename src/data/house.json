@@ -1,0 +1,62 @@
+[
+    {
+        "text": "Appartement",
+        "icon": "home",
+        "chose": false
+    },
+    {
+        "text": "Studios",
+        "icon": "home",
+        "chose": true
+    },
+    {
+        "text": "Chambre",
+        "icon": "email",
+        "chose": false
+    },
+    {
+        "text": "villa",
+        "icon": "apps",
+        "chose": false
+    },
+    {
+        "text": "Studios Moderne",
+        "icon": "apps",
+        "chose": false
+    },
+    {
+        "text": "chambre Moderne",
+        "icon": "apps",
+        "chose": false
+    },
+    {
+        "text": "Appartement moderne",
+        "icon": "apps",
+        "chose": false
+    },
+    {
+        "text": "Bureau",
+        "icon": "apps",
+        "chose": false
+    },
+    {
+        "text": "Boutique",
+        "icon": "apps",
+        "chose": false
+    },
+    {
+        "text": "Magasin",
+        "icon": "apps",
+        "chose": false
+    },
+    {
+        "text": "Terrain",
+        "icon": "apps",
+        "chose": false
+    },
+    {
+        "text": "Loft/athelier",
+        "icon": "apps",
+        "chose": false
+    }
+]

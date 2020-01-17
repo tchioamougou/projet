@@ -1,4 +1,5 @@
-# city
+<<<<<<< HEAD
+# dreamcity
 
 ## Project setup
 ```
@@ -22,3 +23,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+=======
+# dreanCity
+>>>>>>> 528c7623408bb763eda362f44b4b1762072bc7c7

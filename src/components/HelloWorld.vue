@@ -1,319 +1,147 @@
 <template>
-  <div class="container columns">
-    <div class="column is-3"></div>
-    <div class="column is-8">
-      <div class="container">
-        <div>
-          <h1>Recherche avancée</h1>
-        </div>
-        <hr />
-        <div class="diva">Que voulez-vous louer??</div>
-        <div class="columns is-multiline is-mobile">
-          <div class="column is-2" v-for="item in typeAlouer" :key="item.text">
-            <div class="level-item has-text-centered">
-              <div class="header">
-                <b-button
-                  :icon-left="item.icon"
-                  rounded
-                  @click="chose(item)"
-                  :type="item.chose ? 'is-primary' : 'none'"
-                  v-model="item.chose"
-                ></b-button>
-                <p class="sub-title">{{ item.text }}</p>
-              </div>
+<div>
+    <b-navbar toggleable="lg" type="dark" id="dc_navbar">
+        <button class="btn btn-outline-info my-2 my-sm-0">Dream City</button>
+
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav>
+                <b-nav-item href="#" active>Home</b-nav-item>
+                <b-nav-item href="#">Location</b-nav-item>
+                <b-nav-item href="#">Move house</b-nav-item>
+                <b-nav-item href="#">Announcement</b-nav-item>
+            </b-navbar-nav>
+
+            <!-- Right aligned nav items -->
+            <b-navbar-nav class="ml-auto">
+                <b-nav-item-dropdown text="Lang" right>
+                    <b-dropdown-item href="#">EN</b-dropdown-item>
+                    <b-dropdown-item href="#">ES</b-dropdown-item>
+                    <b-dropdown-item href="#">RU</b-dropdown-item>
+                    <b-dropdown-item href="#">FA</b-dropdown-item>
+                </b-nav-item-dropdown>
+
+                <b-navbar-nav>
+                    <b-nav-item href="#">Sign in</b-nav-item>
+                    <b-nav-item href="#">Sign out</b-nav-item>
+                </b-navbar-nav>
+            </b-navbar-nav>
+        </b-collapse>
+    </b-navbar>
+
+    <!--    Begin carousel  -->
+    <div id="dc_carousel">
+        <div id="dc_carouselText">
+            <h1>LOCATION EN UN CLICK</h1>
+            <h4>Louer sans dépenser aucun frais est notre concept</h4>
+            <div id="dc_miniSearch">
+                <div class="columns">
+                    <div class="column">
+                        <b-form-select v-model="selected" :options="propertyTypes"></b-form-select>
+                    </div>
+                    <div class="column">
+                        <b-form-input placeholder="Town name"></b-form-input>
+                    </div>
+                    <div class="column">
+                        <b-form-input placeholder="Maximum Price "></b-form-input>
+                    </div>
+                </div>
             </div>
-          </div>
+            <button class="btn btn-outline-info my-2 my-sm-0">Fast Search</button>
         </div>
-        <hr />
-        <div class="diva">Ou voulez-vous louer??</div>
-        <div class="columns">
-          <div class="column is-10">
-            <b-field>
-              <b-input icon="account" placeholder="adresse" />
-            </b-field>
-          </div>
-        </div>
-        <hr />
-        <div class="diva">Quel est notre budget?</div>
-        <div class="columns">
-          <div class="column is-5">
-            <b-field>
-              <p class="control">
-                <button class="button">Min</button>
-              </p>
-              <b-input placeholder rounded></b-input>
-              <p class="control">
-                <button class="button">£</button>
-              </p>
-            </b-field>
-          </div>
-          <div class="column is-5">
-            <b-field>
-              <p class="control">
-                <button class="button">Max</button>
-              </p>
-              <b-input placeholder rounded></b-input>
-              <p class="control">
-                <button class="button">£</button>
-              </p>
-            </b-field>
-          </div>
-        </div>
-        <hr />
-        <div class="columns" v-if="showhouse">
-          <div class="column is-6">
-            <div class="diva">surface habitable</div>
-            <div class="columns">
-              <div class="column">
-                <b-field label="min">
-                  <b-input type="number"></b-input>
-                  <p class="control">
-                    <button class="button is-primary" disabled>m²</button>
-                  </p>
-                </b-field>
-              </div>
-              <div class="column">
-                <b-field label="max">
-                  <b-input placeholder type="number"></b-input>
-                  <p class="control">
-                    <button class="button is-primary" disabled>m²</button>
-                  </p>
-                </b-field>
-              </div>
-            </div>
-          </div>
-          <div class="column is-6">
-            <div class="diva">Surface du Terrain</div>
-            <div class="columns">
-              <div class="column">
-                <b-field label="min">
-                  <b-input placeholder type="number"></b-input>
-                  <p class="control">
-                    <button class="button is-primary" disabled>m²</button>
-                  </p>
-                </b-field>
-              </div>
-              <div class="column">
-                <b-field label="max">
-                  <b-input placeholder="00,0" type="number"></b-input>
-                  <p class="control">
-                    <button class="button is-primary" disabled>m²</button>
-                  </p>
-                </b-field>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr />
-        <div class="diva">quelle envies avez-vous?</div>
-        <div class="columns is-multiline is-mobile">
-          <div class="column is-2" v-for="item in need" :key="item.text">
-            <div class="level-item has-text-centered">
-              <div class="header">
-                <b-button
-                  :icon-left="item.icon"
-                  rounded
-                  @click="chose(item)"
-                  :type="item.chose ? 'is-primary' : 'none'"
-                  v-model="item.chose"
-                >
-                  <b-icon icon="src\assets\icons8-porte-de-garage-50.png">
-                  </b-icon
-                ></b-button>
-                <p class="sub-title">{{ item.text }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr />
-        <div class="diva">Autres prieces</div>
-        <div>
-          <section>
-            <div class="block">
-              <b-checkbox v-model="checkboxGroup" native-value="Cuisine"
-                >Cuisine séparée</b-checkbox
-              >
-              <b-checkbox v-model="checkboxGroup" native-value="Toilette"
-                >Toilette séparée</b-checkbox
-              >
-              <b-checkbox v-model="checkboxGroup" native-value="Eau"
-                >Sale d'eau(douche)</b-checkbox
-              >
-            </div>
-          </section>
-        </div>
-      </div>
     </div>
-    <div class="column is-3">
-      <div class="card">
-        <div class="card-content">
-          <div class="content">
-            <div class="diva">
-              <p></p>
-              <h1>2018 annonces</h1>
-              <b-button type="is-danger" rounded>Rechercher</b-button>
-            </div>
-          </div>
-        </div>
-        <footer class="card-footer"></footer>
-      </div>
+    <!--     End carousel   -->
+
+    <div class="dc_advanceSearchBtn">
+        <button class="btn btn-outline-success my-2 my-sm-0">
+            Click here for advanced research
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 226 226" style=" fill:#000000;">
+                <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                    <path d="M0,226v-226h226v226z" fill="none"></path>
+                    <g fill="#2ecc71">
+                        <path d="M131.83333,46.42122l-14.125,14.125l43.0371,43.03711h-132.49544v18.83333h132.49544l-43.0371,43.0371l14.125,14.125l66.57877,-66.57877z"></path>
+                    </g>
+                </g>
+            </svg>
+        </button>
     </div>
-  </div>
+
+    <div class="dc_sampleProperty">
+        <h1>Latest posts</h1>
+        <div>
+            <b-card img-src="https://placekitten.com/300/300" img-alt="Card image" img-right>
+                <b-card-text>
+                    Some quick example text to build on the card and make up the bulk of the card's content.
+                </b-card-text>
+            </b-card>
+        </div>
+    </div>
+
+</div>
 </template>
 
 <script>
 export default {
-  name: "HelloWorld",
-  props: {
-    msg: String
-  },
-  methods: {
-    chose(item) {
-      item.chose = !item.chose;
-      if (item.text == "villa") {
-        this.showhouse = item.chose;
-      }
+    data() {
+        return {
+            selected: 'Chambres',
+            propertyTypes: [
+                { text: 'Chambres' },
+                { text: 'Studios' },
+                { text: 'Appartements' },
+                { text: 'Maisons' }
+            ]
+        }
     }
-  },
-
-  data() {
-    return {
-      showhouse: false,
-      typeAlouer: [
-        {
-          text: "Appartement",
-          icon: "home",
-          chose: false
-        },
-        {
-          text: "Studios",
-          icon: "home",
-          chose: true
-        },
-        {
-          text: "Chambre",
-          icon: "account",
-          chose: false
-        },
-        {
-          text: "villa",
-          icon: "apps",
-          chose: false
-        },
-        {
-          text: "Studios Moderne",
-          icon: "apps",
-          chose: false
-        },
-        {
-          text: "chambre Moderne",
-          icon: "apps",
-          chose: false
-        },
-        {
-          text: "Appartement moderne",
-          icon: "apps",
-          chose: false
-        },
-        {
-          text: "Bureau",
-          icon: "office",
-          chose: false
-        },
-        {
-          text: "Boutique",
-          icon: "apps",
-          chose: false
-        },
-        {
-          text: "Magasin",
-          icon: "apps",
-          chose: false
-        },
-        {
-          text: "Terrain",
-          icon: "apps",
-          chose: false
-        },
-        {
-          text: "Loft/athelier",
-          icon: "apps",
-          chose: false
-        }
-      ],
-      need: [
-        {
-          text: "jardin",
-          icon: "home",
-          chose: false
-        },
-        {
-          text: "sous-sol",
-          icon: "home",
-          chose: false
-        },
-        {
-          text: "gardien",
-          icon: "account",
-          chose: false
-        },
-        {
-          text: "balcon",
-          icon: "apps",
-          chose: false
-        },
-        {
-          text: "rez de chausse",
-          icon: "home",
-          chose: false
-        },
-        {
-          text: "terrasse",
-          icon: "home",
-          chose: false
-        },
-        {
-          text: "belle vue",
-          icon: "account",
-          chose: false
-        },
-        {
-          text: "villa",
-          icon: "apps",
-          chose: false
-        }
-      ],
-      checkboxGroup: []
-    };
-  }
-};
+}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+<style>
+#dc_navbar {
+    background: linear-gradient(130deg, rgb(1, 82, 158), #3286d4);
+    width: auto;
+    margin-top: 0px;
+    border: 2px;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+#dc_carousel {
+    height: 600px;
+    background: transparent url(../assets/ville1.jpg);
+    background-size: cover;
+    color: white;
+    font: bold;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
+div#dc_carousel h1 {
+    font-size: 3em;
 }
 
-a {
-  color: #42b983;
+#dc_carouselText {
+    height: 400px;
+    padding-top: 150px;
 }
 
-.diva {
-  text-align: left;
-  margin: 1em;
-  font-style: italic;
-  font-family: "Times New Roman", Times, serif;
+div#dc_carouselText button {
+    font-size: 1.1em;
+}
+
+#dc_miniSearch {
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid #fff;
+    margin-top: 200px;
+    margin-bottom: 8px;
+    padding: 5px;
+}
+
+.dc_advanceSearchBtn {
+    margin: 20px;
+}
+
+.dc_sampleProperty h1{
+    font-size: 2em;
+    margin-bottom: 10px;
 }
 </style>
