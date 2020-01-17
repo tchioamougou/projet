@@ -68,8 +68,9 @@
             </div>
           </div>
         </div>
-        <hr />
+
         <div class="columns" v-if="showSurface">
+          <hr />
           <div class="column is-6">
             <div class="diva">surface habitable</div>
             <div class="columns">

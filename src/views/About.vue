@@ -1,14 +1,45 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-    <input v-model="type.types" />
-    <button @click="add(type)">add</button>
-    <h2 v-for="item in house" :key="item.types">{{item.type}}</h2>
+  <div>
+    <b-navbar class="is-dark">
+      <template slot="brand">
+        <b-navbar-item tag="router-link" :to="{ path: '/' }">
+          <img
+            src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"
+            alt="Lightweight UI components for Vue.js based on Bulma"
+          />
+        </b-navbar-item>
+      </template>
+      <template slot="start">
+        <b-navbar-item class="is-dark" href="#">Home</b-navbar-item>
+        <b-navbar-item href="#">Documentation</b-navbar-item>
+        <b-navbar-dropdown label="Info">
+          <b-navbar-item href="#">About</b-navbar-item>
+          <b-navbar-item href="#">Contact</b-navbar-item>
+        </b-navbar-dropdown>
+      </template>
+
+      <template slot="end">
+        <b-navbar-item tag="div">
+          <div class="buttons">
+            <a class="button is-primary">
+              <strong>Sign up</strong>
+            </a>
+            <a class="button is-light">Log in</a>
+          </div>
+        </b-navbar-item>
+      </template>
+    </b-navbar>
+
+    <step-three></step-three>
   </div>
 </template>
 <script>
 import { db } from "../plugins/firebase.js";
+import StepThree from "../components/StepThree.vue";
 export default {
+  components: {
+    StepThree
+  },
   data() {
     return {
       doc: "",

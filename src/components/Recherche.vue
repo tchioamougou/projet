@@ -14,7 +14,7 @@
             <div class="level-item has-text-centered">
               <div class="header">
                 <div @click="chose(item)" :class="item.chose?'is':'none'">
-                  <img src="../assets/type.png" />
+                  <img v-bind:src="item.icon" alt="pas" />
                 </div>
                 <p class="subtitle">{{item.text}}</p>
               </div>
@@ -115,7 +115,7 @@
             <div class="level-item has-text-centered">
               <div class="header">
                 <div @click="chose(item)" :class="item.chose?'is':'none'">
-                  <img src="../assets/chambre.png" />
+                  <img :src="item.icon" />
                 </div>
                 <p class="sub-title">{{item.text}}</p>
               </div>
@@ -247,7 +247,7 @@ export default {
         },
         {
           text: "sous-sol",
-          icon: "home",
+          icon: "../assets/apart.jpg",
           chose: false
         },
         {

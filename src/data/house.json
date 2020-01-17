@@ -1,62 +1,62 @@
 [
-    {
-        "text": "Appartement",
-        "icon": "home",
-        "chose": false
-    },
-    {
-        "text": "Studios",
-        "icon": "home",
-        "chose": true
-    },
-    {
-        "text": "Chambre",
-        "icon": "email",
-        "chose": false
-    },
-    {
-        "text": "villa",
-        "icon": "apps",
-        "chose": false
-    },
-    {
-        "text": "Studios Moderne",
-        "icon": "apps",
-        "chose": false
-    },
-    {
-        "text": "chambre Moderne",
-        "icon": "apps",
-        "chose": false
-    },
-    {
-        "text": "Appartement moderne",
-        "icon": "apps",
-        "chose": false
-    },
-    {
-        "text": "Bureau",
-        "icon": "apps",
-        "chose": false
-    },
-    {
-        "text": "Boutique",
-        "icon": "apps",
-        "chose": false
-    },
-    {
-        "text": "Magasin",
-        "icon": "apps",
-        "chose": false
-    },
-    {
-        "text": "Terrain",
-        "icon": "apps",
-        "chose": false
-    },
-    {
-        "text": "Loft/athelier",
-        "icon": "apps",
-        "chose": false
-    }
+  {
+    "text": "Appartement",
+    "icon": "https://github.com/tchioamougou/projet/blob/master/src/assets/apart.jpg",
+    "chose": false
+  },
+  {
+    "text": "Studios",
+    "icon": "../assets/studios.jpg",
+    "chose": true
+  },
+  {
+    "text": "Chambre",
+    "icon": "../assets/room.png",
+    "chose": false
+  },
+  {
+    "text": "villa",
+    "icon": "../assets/villa.jpg",
+    "chose": false
+  },
+  {
+    "text": "Studios Moderne",
+    "icon": "../assets/studios.jpg",
+    "chose": false
+  },
+  {
+    "text": "chambre Moderne",
+    "icon": "../assets/room.png",
+    "chose": false
+  },
+  {
+    "text": "Appartement moderne",
+    "icon": "../../assets/apart.jpg",
+    "chose": false
+  },
+  {
+    "text": "Bureau",
+    "icon": "../assets/office.png",
+    "chose": false
+  },
+  {
+    "text": "Boutique",
+    "icon": "../assets/store.png",
+    "chose": false
+  },
+  {
+    "text": "Magasin",
+    "icon": "../assets/store.png",
+    "chose": false
+  },
+  {
+    "text": "Terrain",
+    "icon": "../assets/ground.png",
+    "chose": false
+  },
+  {
+    "text": "Loft/athelier",
+    "icon": "../assets/ground.jpg",
+    "chose": false
+  }
 ]
