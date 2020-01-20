@@ -69,10 +69,10 @@
               <div class="column is-2" v-for="item in typeAlouer" :key="item.text">
                 <div class="level-item has-text-centered">
                   <div class="header">
-                    <div @click="chose(item)" :class="item.chose?'is':'none'">
-                      <img :src="item.icon" />
+                    <div @click="chose(item)" :class="item.chose?' hover01 is':'hover01 none'">
+                      <img :src="getImgUrl(item.icon)" class="image" />
                     </div>
-                    <p class="subtitle">{{item.text}}</p>
+                    <p class="diva">{{item.text}}</p>
                   </div>
                 </div>
               </div>
@@ -391,6 +391,10 @@ export default {
     final() {
       this.steplevel = 0;
       this.start();
+    },
+    getImgUrl(pet) {
+      var images = require.context("../assets/", false, /\.*$/);
+      return images("./" + pet);
     }
   }
 };
@@ -418,71 +422,32 @@ a {
   font-style: italic;
   font-family: "Times New Roman", Times, serif;
 }
+.image {
+  width: 75px;
+  height: 75px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: block;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.hover01 img {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+.hover01:hover img {
+  -webkit-transform: scale(1.3);
+  transform: scale(1.3);
+}
 .fixed {
   position: fixed;
 }
-@import url(https://fonts.googleapis.com/css?family=Inconsolata);
-#steps {
-  width: 505px;
-  margin: 50px auto;
-}
-
-.step {
-  width: 40px;
-  height: 40px;
-  background-color: white;
-  display: inline-block;
-  border: 4px solid;
-  border-color: transparent;
+.is {
+  background-color: black;
+  border-block-color: initial;
+  border-color: aqua;
   border-radius: 50%;
-  border-color: blue;
-
-  font-weight: 600;
-  text-align: center;
-  line-height: 40px;
-}
-.step:first-child {
-  line-height: 40px;
-}
-.step:nth-child(n + 2) {
-  margin: 0 0 0 100px;
-  transform: translate(0, -4px);
-}
-.step:nth-child(n + 2):before {
-  width: 75px;
-  height: 3px;
-  display: block;
-  background-color: rgb(173, 44, 44);
-  transform: translate(-95px, 21px);
-  content: "";
-}
-.step:after {
-  width: 150px;
-  display: block;
-  transform: translate(-55px, 3px);
-
-  color: grey;
-  content: attr(data-desc);
-  font-weight: 400;
-  font-size: 13px;
-}
-.step:first-child:after {
-  transform: translate(-55px, -1px);
-}
-.step.active {
-  border-color: wheat;
-}
-.step.active:before {
-  background: linear-gradient(to right, green 0%, blue 100%);
-}
-.step.active:after {
-  color: blue;
-}
-.step.done {
-  background-color: green;
-  border-color: green;
-}
-.step.done:before {
-  background-color: green;
 }
 </style>

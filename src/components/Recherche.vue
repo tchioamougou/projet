@@ -13,10 +13,10 @@
           <div class="column is-2" v-for="item in typeAlouer" :key="item.text">
             <div class="level-item has-text-centered">
               <div class="header">
-                <div @click="chose(item)" :class="item.chose?'is':'none'">
-                  <img v-bind:src="item.icon" alt="pas" />
+                <div @click="chose(item)" :class="item.chose?'hover01 is':'hover01 none'">
+                  <img :src="getImgUrl(item.icon)" alt="pas" class="image" />
                 </div>
-                <p class="subtitle">{{item.text}}</p>
+                <p class="diva">{{item.text}}</p>
               </div>
             </div>
           </div>
@@ -210,6 +210,10 @@ export default {
     },
     translate() {
       this.$i18n.locale = "fr";
+    },
+    getImgUrl(pet) {
+      var images = require.context("../assets/", false, /\.*$/);
+      return images("./" + pet);
     }
   },
   mounted() {
@@ -293,6 +297,21 @@ export default {
 h3 {
   margin: 40px 0 0;
 }
+.image {
+  width: 75px;
+  height: 75px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: block;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.type-house {
+  border: red;
+  border-radius: 50%;
+  float: right;
+  align-content: center;
+}
 ul {
   list-style-type: none;
   padding: 0;
@@ -317,6 +336,17 @@ a {
   background-color: black;
   border-block-color: initial;
   border-color: aqua;
-  border-radius: 10px;
+  border-radius: 50%;
+}
+
+.hover01 img {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+.hover01:hover img {
+  -webkit-transform: scale(1.3);
+  transform: scale(1.3);
 }
 </style>
