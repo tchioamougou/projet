@@ -36,9 +36,11 @@
 <script>
 import { db } from "../plugins/firebase.js";
 import StepThree from "../components/StepThree.vue";
+//import step from "../components/step.vue";
 export default {
   components: {
     StepThree
+    //  step
   },
   data() {
     return {

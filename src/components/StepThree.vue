@@ -1,238 +1,338 @@
 <template>
   <div class="container columns">
     <div class="column is-3">
-      <b-loading is-full-page :active.sync="isloading" :can-cancel="true"></b-loading>
+      <b-loading isFullPage :active.sync="isloading" :can-cancel="true"></b-loading>
+      {{uploadValue}}
     </div>
     <div class="column is-8">
+      <div class="columns">
+        <div class="column is-12 container1">
+          <ul class="progressbar">
+            <li :class="(steplevel)>0?'active':'none'"></li>
+            <li :class="(steplevel)>1?'active':'none'"></li>
+            <li :class="(steplevel)>2?'active':'none'"></li>
+            <li :class="(steplevel)>3?'active':'none'"></li>
+            <li :class="(steplevel)>4?'active':'none'"></li>
+          </ul>
+        </div>
+      </div>
       <div class="container">
-        <div v-if="steps[0].isStep">
-          <div class="columns is-multiline">
-            <div class="diva column is-10">
-              step one
-              <hr />
-            </div>
-            <div class="column is-10">
-              <div class="level-item has-text-centered">
-                <div class="heading">
-                  Adresse
-                  <b-field>
-                    <b-autocomplete
-                      v-model="form.address"
-                      placeholder="address"
-                      :data="filteredDataObj"
-                      field="name"
-                      @select="option => selected = option"
-                      icon="account"
-                    >
-                      <template slot="empty">No results found</template>
-                    </b-autocomplete>
-                  </b-field>
-                  <p>Hello. How are you today?</p>
-                </div>
+        <transition name="steps">
+          <div v-if="steps[0].isStep">
+            <div class="columns is-multiline">
+              <div class="diva column is-12">
+                <h2 class="header-step">Où est situé votre bien ?</h2>
               </div>
-            </div>
-            <div class="column is-10">
-              <div class="level-item has-text-centered">
-                <div class="heading">
-                  commune
-                  <b-field>
-                    <b-input type="text" placeholder="Commune" v-model="form.city" icon="account" />
-                  </b-field>
-                  <p>Hello. How are you today?</p>
-                </div>
-              </div>
-            </div>
-            <div class="column is-10">
-              <div class="columns">
-                <div class="buttons column">
-                  <b-button
-                    type="is-primary"
-                    :disabled="hidePreviouse"
-                    @click="previouse()"
-                    expanded
-                  >previouse</b-button>
-                </div>
-                <div class="buttons column">
-                  <b-button type="is-primary" expanded @click="next()">next</b-button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div v-if="steps[1].isStep">
-          <div class="diva">
-            step 2: que voulez-vous mettre en location ???
-            <hr />
-          </div>
-          <div class="container">
-            <div class="columns is-multiline is-mobile">
-              <div class="column is-2" v-for="item in typeAlouer" :key="item.text">
-                <div class="level-item has-text-centered">
-                  <div class="header">
-                    <div @click="chose(item)" :class="item.chose?' hover01 is':'hover01 none'">
-                      <img :src="getImgUrl(item.icon)" class="image" />
+              <div class="column is-12">
+                <div class>
+                  <div class="diva">
+                    Adresse de votre bien
+                    <b-field>
+                      <b-autocomplete
+                        v-model="form.address"
+                        placeholder="address"
+                        :data="filteredDataObj"
+                        field="name"
+                        @select="option => selected = option"
+                        icon="account"
+                      >
+                        <template slot="empty">No results found</template>
+                      </b-autocomplete>
+                    </b-field>
+                    <div class="div-info">
+                      <p>Hello. How are you today?</p>
                     </div>
-                    <p class="diva">{{item.text}}</p>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="columns is-multiline" v-if="showSurface">
-              <div class="column is-6">
-                <div class="diva">surface habitable</div>
-                <div class="columns">
-                  <div class="column">
-                    <b-field label="min">
-                      <b-input type="number"></b-input>
-                      <p class="control">
-                        <button class="button is-primary" disabled>m²</button>
-                      </p>
-                    </b-field>
-                  </div>
-                  <div class="column">
-                    <b-field label="max">
-                      <b-input placeholder type="number"></b-input>
-                      <p class="control">
-                        <button class="button is-primary" disabled>m²</button>
-                      </p>
-                    </b-field>
-                  </div>
-                </div>
-              </div>
-              <div class="column is-6">
-                <div class="diva">Surface du Terrain</div>
-                <div class="columns">
-                  <div class="column">
-                    <b-field label="min">
-                      <b-input placeholder type="number"></b-input>
-                      <p class="control">
-                        <button class="button is-primary" disabled>m²</button>
-                      </p>
-                    </b-field>
-                  </div>
-                  <div class="column">
-                    <b-field label="max">
-                      <b-input placeholder="00,0" type="number"></b-input>
-                      <p class="control">
-                        <button class="button is-primary" disabled>m²</button>
-                      </p>
-                    </b-field>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr />
-
-            <div class="columns" v-if="showroom">
-              <div class="column is-6">
-                <div class="diva">Nombre de pieces</div>
-                <div class="columns">
-                  <div class="column">
+              <div class="column is-12">
+                <div class>
+                  <div class="diva">
+                    commune ou code postal
                     <b-field>
-                      <b-input type="number" v-model="form.numberOfPiece"></b-input>
+                      <b-input
+                        type="text"
+                        placeholder="Commune"
+                        v-model="form.city"
+                        icon="account"
+                      />
                     </b-field>
+                    <div class="div-info">
+                      <p>Hello. How are you today?</p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="column is-6">
-                <div class="diva">Nombre de chambre</div>
+              <div class="column is-11">
                 <div class="columns">
-                  <div class="column">
-                    <b-field>
-                      <b-input placeholder type="number" v-model="form.numberOfRoom"></b-input>
-                    </b-field>
+                  <div class="buttons column is-2">
+                    <b-button
+                      type="is-primary"
+                      :disabled="hidePreviouse"
+                      @click="previouse()"
+                      expanded
+                    >previouse</b-button>
                   </div>
-                </div>
-              </div>
-            </div>
-            <hr />
-            <div class="diva">Autres prieces</div>
-            <div v-if="showroom">
-              <section>
-                <div class="block">
-                  <b-checkbox v-model="form.otherRooms" native-value="Cuisine">Cuisine séparée</b-checkbox>
-                  <b-checkbox v-model="form.otherRooms" native-value="Toilette">Toilette séparée</b-checkbox>
-                  <b-checkbox v-model="form.otherRooms" native-value="Eau">Sale d'eau(douche)</b-checkbox>
-                </div>
-              </section>
-            </div>
-            <hr />
-            <div class="diva">Description</div>
-            <div>
-              <b-field>
-                <b-input type="textarea" v-model="form.description"></b-input>
-              </b-field>
-            </div>
-            <div class="column is-10">
-              <div class="columns">
-                <div class="buttons column">
-                  <b-button type="is-primary" expanded @click="previouse()">previouse</b-button>
-                </div>
-                <div class="buttons column">
-                  <b-button type="is-primary" expanded @click="next()">next</b-button>
+                  <div class="column is-8"></div>
+                  <div class="buttons column is-3">
+                    <b-button rounded type="is-primary" expanded @click="next()">next</b-button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div v-if="steps[2].isStep">
-          <div class="diva">step 4 prix of house</div>
-          <hr />
-          <div class="diva">prix de location</div>
-          <div class="columns">
-            <div class="column is-10">
+        </transition>
+        <transition name="steps">
+          <div v-if="steps[1].isStep">
+            <div class="diva column is-12">
+              <h2 class="header-step">Décrivez-nous votre bien</h2>
+            </div>
+            <div class="diva">Que voulez-vous mettre en location ???</div>
+            <div class="container">
+              <div class="columns is-multiline is-mobile">
+                <div class="column is-2" v-for="item in typeAlouer" :key="item.text">
+                  <div class>
+                    <div class>
+                      <div
+                        @click="chose(item)"
+                        :class="item.chose?' image-check hover01 is':'hover01 none'"
+                      >
+                        <img :src="getImgUrl(item.icon)" class="image" />
+                      </div>
+                      <p class="diva">{{item.text}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="columns is-multiline" v-if="showSurface">
+                <div class="column is-6">
+                  <div class="diva">surface habitable</div>
+                  <div class="columns">
+                    <div class="column">
+                      <b-field label="min">
+                        <b-input type="number"></b-input>
+                        <p class="control">
+                          <button class="button is-primary" disabled>m²</button>
+                        </p>
+                      </b-field>
+                    </div>
+                    <div class="column">
+                      <b-field label="max">
+                        <b-input placeholder type="number"></b-input>
+                        <p class="control">
+                          <button class="button is-primary" disabled>m²</button>
+                        </p>
+                      </b-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-6">
+                  <div class="diva">Surface du Terrain</div>
+                  <div class="columns">
+                    <div class="column">
+                      <b-field label="min">
+                        <b-input placeholder type="number"></b-input>
+                        <p class="control">
+                          <button class="button is-primary" disabled>m²</button>
+                        </p>
+                      </b-field>
+                    </div>
+                    <div class="column">
+                      <b-field label="max">
+                        <b-input placeholder="00,0" type="number"></b-input>
+                        <p class="control">
+                          <button class="button is-primary" disabled>m²</button>
+                        </p>
+                      </b-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="columns" v-if="showroom">
+                <div class="column is-6">
+                  <div class="diva">Nombre de pieces</div>
+                  <div class="columns">
+                    <div class="column">
+                      <b-field>
+                        <b-input type="number" v-model="form.numberOfPiece"></b-input>
+                      </b-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-6">
+                  <div class="diva">Nombre de chambre</div>
+                  <div class="columns">
+                    <div class="column">
+                      <b-field>
+                        <b-input placeholder type="number" v-model="form.numberOfRoom"></b-input>
+                      </b-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="showroom">
+                <div class="diva">Autres prieces</div>
+                <section>
+                  <div class="block">
+                    <b-checkbox v-model="form.otherRooms" native-value="Cuisine">Cuisine séparée</b-checkbox>
+                    <b-checkbox v-model="form.otherRooms" native-value="Toilette">Toilette séparée</b-checkbox>
+                    <b-checkbox v-model="form.otherRooms" native-value="Eau">Sale d'eau(douche)</b-checkbox>
+                  </div>
+                </section>
+              </div>
+              <div class="column is-12">
+                <div class="diva">Description</div>
+                <div>
+                  <b-field>
+                    <b-input type="textarea" v-model="form.description"></b-input>
+                  </b-field>
+                </div>
+                <div class="div-info">information sur la description du bien</div>
+              </div>
+              <div class="column is-11">
+                <div class="columns">
+                  <div class="buttons column is-3">
+                    <b-button type="is-primary" rounded expanded @click="previouse()">previouse</b-button>
+                  </div>
+                  <div class="column is-7"></div>
+                  <div class="buttons column is-3">
+                    <b-button type="is-danger" rounded expanded @click="next()">next</b-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
+        <transition name="steps">
+          <div v-if="steps[2].isStep">
+            <div class="column is-12">
+              <div class="diva">
+                <h2 class="header-step">Quel est le montant de votre bien ?</h2>
+              </div>
+            </div>
+            <div class="column diva is-12">
+              Loyer mensuel charges comprises
               <b-field>
                 <b-input icon="account" placeholder="prix" type="number" v-model="form.price" />
               </b-field>
-            </div>
-          </div>
-          <hr />
-          <div class="diva">importer des photos</div>
-
-          <section>
-            <b-field>
-              <b-upload v-model="dropFiles" multiple drag-drop>
-                <section class="section">
-                  <div class="content has-text-centered">
-                    <p>
-                      <b-icon icon="upload" size="is-large"></b-icon>
-                    </p>
-                    <p>Drop your files here or click to upload</p>
-                  </div>
-                </section>
-              </b-upload>
-            </b-field>
-
-            <div class="tags">
-              <span v-for="(file, index) in dropFiles" :key="index" class="tag is-primary">
-                {{file.name}}
-                <button
-                  class="delete is-small"
-                  type="button"
-                  @click="deleteDropFile(index)"
-                ></button>
-              </span>
-              <span class="tag is-primary">
-                <button type="button" class="insert is-small">+</button>
-              </span>
-            </div>
-          </section>
-          <div class="column is-10">
-            <div class="columns">
-              <div class="buttons column">
-                <b-button type="is-primary" expanded @click="previouse()">previouse</b-button>
+              <div class="div-info">
+                <p>information sur le loyer</p>
               </div>
-              <div class="buttons column">
-                <b-button type="is-primary" expanded @click="next()">next</b-button>
+            </div>
+            <div class="column diva is-12">
+              grarantie demander
+              <b-field>
+                <b-input icon="account" placeholder="prix" type="number" v-model="form.price" />
+              </b-field>
+              <div class="div-info">
+                <p>information sur la grarantie</p>
+              </div>
+            </div>
+            <div class="column diva is-12">
+              mode payement
+              <b-field>
+                <b-input icon="account" placeholder="prix" type="number" v-model="form.price" />
+              </b-field>
+              <div class="div-info">
+                <p>le payement du loyer est</p>
+                <ul>
+                  <li>annuel</li>
+                  <li>trimestriel</li>
+                  <li>semestriel</li>
+                  <li>mensuel</li>
+                </ul>
+              </div>
+            </div>
+            <div class="column is-11">
+              <div class="columns">
+                <div class="buttons column is-3">
+                  <b-button type="is-primary" rounded expanded @click="previouse()">previouse</b-button>
+                </div>
+                <div class="column is-7"></div>
+                <div class="buttons column is-3">
+                  <b-button type="is-danger" rounded expanded @click="next()">next</b-button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div v-if="steps[3].isStep">
-          <div>detail sur le postedata</div>
-          <button class="is-primary" @click="previouse()">previouse</button>
-          <button class="is-primary" @click="final()">final</button>
-        </div>
+        </transition>
+        <transition name="steps">
+          <div v-if="steps[3].isStep">
+            <div class="column is-12">
+              <div class="diva">
+                <h2 class="header-step">photos et video de votre bien</h2>
+              </div>
+            </div>
+            <div class="column is-12">
+              <section>
+                <b-field>
+                  <b-upload v-model="dropFiles" multiple drag-drop>
+                    <section class="section">
+                      <div class="content has-text-centered">
+                        <p>
+                          <b-icon icon="upload" size="is-large"></b-icon>
+                        </p>
+                        <p>Drop your files here or click to upload</p>
+                      </div>
+                    </section>
+                  </b-upload>
+                </b-field>
+
+                <div class="tags">
+                  <span v-for="(file, index) in dropFiles" :key="index" class="tag is-primary">
+                    {{file.name}}
+                    <button
+                      class="delete is-small"
+                      type="button"
+                      @click="deleteDropFile(index)"
+                    ></button>
+                  </span>
+                </div>
+              </section>
+              <div class="diva div-info">
+                <p>sur les photos</p>
+              </div>
+            </div>
+
+            <div class="column diva is-12">
+              Video de votre bien
+              <b-field>
+                <b-input placeholder="lien vers la video du bien" />
+              </b-field>
+              <div class="div-info">
+                <p>information sur la video de votre bien</p>
+              </div>
+            </div>
+            <div class="column is-11">
+              <div class="columns">
+                <div class="buttons column is-3">
+                  <b-button type="is-primary" rounded expanded @click="previouse()">previouse</b-button>
+                </div>
+                <div class="column is-7"></div>
+                <div class="buttons column is-3">
+                  <b-button type="is-danger" rounded expanded @click="next()">next</b-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
+        <transition name="steps">
+          <div v-if="steps[4].isStep">
+            <div>detail sur le postedata</div>
+            <div class="column is-11">
+              <div class="columns">
+                <div class="buttons column is-3">
+                  <b-button type="is-primary" rounded expanded @click="previouse()">&laquo;previous</b-button>
+                </div>
+                <div class="column is-7"></div>
+                <div class="buttons column is-3">
+                  <b-button type="is-danger" rounded expanded @click="poste(form)">final</b-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -269,7 +369,8 @@ export default {
         { name: "setp1", level: 0, isStep: false },
         { name: "step2", level: 1, isStep: false },
         { name: "step3", level: 2, isStep: false },
-        { name: "final", level: 3, isStep: false }
+        { name: "step4", level: 3, isStep: false },
+        { name: "final", level: 4, isStep: false }
       ],
       steplevel: 0,
       hidePreviouse: true,
@@ -281,6 +382,7 @@ export default {
       showSurface: false,
       showroom: false,
       isloading: false,
+      uploadValue: 0,
       form: {
         address: "",
         city: "",
@@ -334,6 +436,7 @@ export default {
         house.photos = this.photos;
         db.collection("house").add(house);
         this.setToNull();
+        this.final();
       });
     },
     deleteDropFile(index) {
@@ -409,8 +512,8 @@ ul {
   padding: 0;
 }
 li {
-  display: inline-block;
-  margin: 0 10px;
+  display: list-item;
+  margin-left: 10px;
 }
 a {
   color: #42b983;
@@ -423,13 +526,23 @@ a {
   font-family: "Times New Roman", Times, serif;
 }
 .image {
-  width: 75px;
-  height: 75px;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
   border-radius: 50%;
   display: block;
   margin-left: 10px;
   margin-right: 10px;
+}
+.image-check {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.header-step {
+  text-align: center;
+}
+.div-info {
+  background-color: lightblue;
 }
 .hover01 img {
   -webkit-transform: scale(1);
@@ -445,9 +558,74 @@ a {
   position: fixed;
 }
 .is {
-  background-color: black;
-  border-block-color: initial;
   border-color: aqua;
   border-radius: 50%;
+}
+.container1 {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.progressbar li {
+  float: left;
+  width: 15%;
+  position: relative;
+  text-align: center;
+}
+.progressbar {
+  counter-reset: step;
+}
+.progressbar li:before {
+  content: counter(step);
+  counter-increment: step;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #bebebe;
+  display: block;
+  margin: 0 auto 10px auto;
+  border-radius: 50%;
+  line-height: 27px;
+  background: white;
+  color: #bebebe;
+  text-align: center;
+  font-weight: bold;
+}
+.progressbar li:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background: #979797;
+  top: 15px;
+  left: -50%;
+  z-index: -1;
+}
+
+.progressbar li:first-child:before {
+  background: #3aac5d;
+  border-color: #3aac5d;
+  background: #3aac5d;
+  color: white;
+}
+.progressbar li:first-child:after {
+  content: none;
+}
+.progressbar li.active + li:after {
+  background: #3aac5d;
+}
+.progressbar li.active + li:before {
+  border-color: #3aac5d;
+  background: #3aac5d;
+  color: white;
+}
+/* Enter and leave animations can use different */
+/* durations and timing functions.              */
+.steps-enter-active {
+  transition: all 5s ease;
+}
+.steps-enter, .steps-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>

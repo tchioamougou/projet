@@ -6,12 +6,12 @@
   },
   {
     "text": "Studios",
-    "icon": "studios.jpg",
+    "icon": "studios.png",
     "chose": true
   },
   {
     "text": "Chambre",
-    "icon": "room.png",
+    "icon": "room.jpg",
     "chose": false
   },
   {
@@ -21,12 +21,12 @@
   },
   {
     "text": "Studios Moderne",
-    "icon": "studios.jpg",
+    "icon": "studios.png",
     "chose": false
   },
   {
     "text": "chambre Moderne",
-    "icon": "room.png",
+    "icon": "room.jpg",
     "chose": false
   },
   {
@@ -36,7 +36,7 @@
   },
   {
     "text": "Bureau",
-    "icon": "office.png",
+    "icon": "office.jpg",
     "chose": false
   },
   {
