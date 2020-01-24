@@ -1,138 +1,112 @@
- <template>
+<template>
   <div class="container columns">
-    <div class="column is-2"></div>
-    <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="true"></b-loading>
+    <div class="column is-2">
+      <b-loading :active.sync="isLoading" :can-cancel="true"></b-loading>
+    </div>
     <div class="column is-8">
       <div class="container">
         <div>
           <h1>Recherche avancée</h1>
         </div>
         <hr />
-        <div class="diva">{{$t('veut-louer')}}</div>
+        <div class="diva">{{ $t("veut-louer") }}</div>
         <div class="columns is-multiline is-mobile">
           <div class="column is-2" v-for="item in typeAlouer" :key="item.text">
-            <div class="level-item has-text-centered">
-              <div class="header">
-                <div @click="chose(item)" :class="item.chose?'hover01 is':'hover01 none'">
-                  <img :src="getImgUrl(item.icon)" alt="pas" class="image" />
-                </div>
-                <p class="diva">{{item.text}}</p>
+            <div class>
+              <div
+                @click="chose(item)"
+                :class="item.chose ? ' image-check hover01' : 'hover01 none'"
+              >
+                <img :src="getImgUrl(item.icon)" class="image" />
               </div>
+              <p class="diva">{{ item.text }}</p>
             </div>
           </div>
         </div>
         <hr />
-        <div class="diva">{{$t('louer-ou')}}</div>
+        <div class="diva">{{ $t("louer-ou") }}</div>
         <div class="columns">
           <div class="column is-10">
             <b-field>
               <b-autocomplete
-                v-model="search.city"
+                v-model="search.address.name"
                 icon="account"
                 placeholder="adresse"
                 :data="filteredDataObj"
                 field="name"
-                @select="option => selected = option"
+                @select="option => (search.address = option)"
               ></b-autocomplete>
             </b-field>
+            <div class="div-info">
+              <p>Hello. How are you today?</p>
+            </div>
           </div>
         </div>
         <hr />
-        <div class="diva">{{$t('budget')}}</div>
+        <div class="diva">{{ $t("budget") }}</div>
         <div class="columns">
           <div class="column is-5">
             <b-field>
               <p class="control">
                 <button class="button">Min</button>
               </p>
-              <b-input placeholder rounded></b-input>
+              <b-input v-model="search.minPrice" type="number" rounded></b-input>
               <p class="control">
                 <button class="button">£</button>
               </p>
             </b-field>
+            <div class="div-info">
+              <p>Hello. How are you today?</p>
+            </div>
           </div>
           <div class="column is-5">
             <b-field>
               <p class="control">
                 <button class="button">Max</button>
               </p>
-              <b-input placeholder rounded></b-input>
+              <b-input v-model="search.maxPrice" type="number" rounded></b-input>
               <p class="control">
                 <button class="button">£</button>
               </p>
             </b-field>
-          </div>
-        </div>
-        <hr />
-        <div class="columns">
-          <div class="column is-6">
-            <div class="diva">surface habitable</div>
-            <div class="columns">
-              <div class="column">
-                <b-field label="min">
-                  <b-input type="number"></b-input>
-                  <p class="control">
-                    <button class="button is-primary" disabled>m²</button>
-                  </p>
-                </b-field>
-              </div>
-              <div class="column">
-                <b-field label="max">
-                  <b-input placeholder type="number"></b-input>
-                  <p class="control">
-                    <button class="button is-primary" disabled>m²</button>
-                  </p>
-                </b-field>
-              </div>
-            </div>
-          </div>
-          <div class="column is-6">
-            <div class="diva">Surface du Terrain</div>
-            <div class="columns">
-              <div class="column">
-                <b-field label="min">
-                  <b-input placeholder type="number"></b-input>
-                  <p class="control">
-                    <button class="button is-primary" disabled>m²</button>
-                  </p>
-                </b-field>
-              </div>
-              <div class="column">
-                <b-field label="max">
-                  <b-input placeholder="00,0" type="number"></b-input>
-                  <p class="control">
-                    <button class="button is-primary" disabled>m²</button>
-                  </p>
-                </b-field>
-              </div>
+            <div class="div-info">
+              <p>Hello. How are you today?</p>
             </div>
           </div>
         </div>
         <hr />
-        <div class="diva">{{$t('envies')}}</div>
+        <div class="diva">{{ $t("envies") }}</div>
         <div class="columns is-multiline is-mobile">
           <div class="column is-2" v-for="item in need" :key="item.text">
-            <div class="level-item has-text-centered">
-              <div class="header">
-                <div @click="chose(item)" :class="item.chose?'is':'none'">
-                  <img :src="item.icon" />
-                </div>
-                <p class="sub-title">{{item.text}}</p>
+            <div>
+              <div
+                @click="chose(item)"
+                :class="item.chose ? ' image-check hover01' : 'hover01 none'"
+              >
+                <img :src="getImgUrl(item.icon)" class="image" />
               </div>
+              <p class="diva">{{ item.text }}</p>
             </div>
           </div>
         </div>
         <hr />
-        <div class="diva">{{$t('autre')}}</div>
+        <div class="diva">{{ $t("autre") }}</div>
         <div>
           <section>
             <div class="block">
-              <b-checkbox v-model="search.otherRooms" native-value="Cuisine">Cuisine séparée</b-checkbox>
-              <b-checkbox v-model="search.otherRooms" native-value="Toilette">Toilette séparée</b-checkbox>
-              <b-checkbox v-model="search.otherRooms" native-value="Eau">Sale d'eau(douche)</b-checkbox>
+              <div class="diva">
+                <b-checkbox v-model="search.otherRooms" native-value="Cuisine">Cuisine séparée</b-checkbox>
+              </div>
+              <div class="diva">
+                <b-checkbox v-model="search.otherRooms" native-value="Toilette">Toilette séparée</b-checkbox>
+              </div>
+              <div class="diva">
+                <b-checkbox v-model="search.otherRooms" native-value="Eau">Sale d'eau(douche)</b-checkbox>
+              </div>
             </div>
           </section>
         </div>
+        <div></div>
       </div>
     </div>
     <div class="column is-3">
@@ -141,9 +115,13 @@
           <div class="content">
             <div class="diva">
               <p></p>
-              <h1>{{rechercheLength}} annonces {{search.type}}</h1>
-              <h2>{{search.otherRooms}}</h2>
-              <b-button type="is-danger" rounded @click="translate()">{{$t('buttons-search')}}</b-button>
+              <h1>{{ rechercheLength }} annonces {{ search.type }}</h1>
+              <h2>{{ search.otherRooms }}</h2>
+              <b-button type="is-danger" rounded @click="translate()">
+                {{
+                $t("buttons-search")
+                }}
+              </b-button>
             </div>
           </div>
         </div>
@@ -157,6 +135,7 @@
 import { db } from "../plugins/firebase.js";
 const data = require("@/data/address.json");
 const typeAlouer = require("@/data/house.json");
+const need = require("@/data/need.json");
 export default {
   name: "HelloWorld",
   props: {
@@ -166,11 +145,15 @@ export default {
     rechercheHouse: function() {
       return this.house.filter(item => {
         if (
-          item.city.match(this.search.city) &&
+          item.address.name.match(this.search.address.name) &&
           (this.search.type.includes(item.type) ||
             this.search.type.length === 0) &&
           (item.otherRooms.includes(this.search.otherRooms) ||
-            this.search.otherRooms.length === 0)
+            this.search.otherRooms.length === 0) &&
+          (parseInt(item.price) <= this.search.maxPrice ||
+            this.search.maxPrice === 0) &&
+          (parseInt(item.price) >= this.search.minPrice ||
+            this.search.minPrice === 0)
         ) {
           return item;
         }
@@ -186,7 +169,7 @@ export default {
           option.name
             .toString()
             .toLowerCase()
-            .indexOf(this.search.city.toLowerCase()) >= 0
+            .indexOf(this.search.address.name.toLowerCase()) >= 0
         );
       });
     }
@@ -196,7 +179,7 @@ export default {
       this.isLoading = true;
       setTimeout(() => {
         this.isLoading = false;
-      }, 10 * 1000);
+      }, 10 * 100);
     },
     chose(item) {
       item.chose = !item.chose;
@@ -235,56 +218,25 @@ export default {
       isLoading: false,
       house: [],
       search: {
-        city: "",
-        type: [],
-        numberOfRoom: "",
-        numberofPiece: "",
+        address: {
+          name: "",
+          arrondissement: "",
+          departement: "",
+          region: ""
+        },
+        postalCode: "",
+        type: "",
+        numberOfRoom: 0,
+        numberofPiece: 0,
+        description: "",
         otherRooms: [],
-        price: ""
+        minPrice: 0,
+        maxPrice: 0,
+        paymentMode: "",
+        garantie: 0
       },
       typeAlouer,
-      need: [
-        {
-          text: "jardin",
-          icon: "home",
-          chose: false
-        },
-        {
-          text: "sous-sol",
-          icon: "../assets/apart.jpg",
-          chose: false
-        },
-        {
-          text: "gardien",
-          icon: "account",
-          chose: false
-        },
-        {
-          text: "balcon",
-          icon: "apps",
-          chose: false
-        },
-        {
-          text: "rez de chausse",
-          icon: "home",
-          chose: false
-        },
-        {
-          text: "terrasse",
-          icon: "home",
-          chose: false
-        },
-        {
-          text: "belle vue",
-          icon: "account",
-          chose: false
-        },
-        {
-          text: "villa",
-          icon: "apps",
-          chose: false
-        }
-      ],
+      need,
       checkboxGroup: []
     };
   }
@@ -298,19 +250,17 @@ h3 {
   margin: 40px 0 0;
 }
 .image {
-  width: 75px;
-  height: 75px;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
   border-radius: 50%;
   display: block;
   margin-left: 10px;
   margin-right: 10px;
 }
-.type-house {
-  border: red;
-  border-radius: 50%;
-  float: right;
-  align-content: center;
+.image-check {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
 }
 ul {
   list-style-type: none;
@@ -338,7 +288,6 @@ a {
   border-color: aqua;
   border-radius: 50%;
 }
-
 .hover01 img {
   -webkit-transform: scale(1);
   transform: scale(1);
@@ -348,5 +297,8 @@ a {
 .hover01:hover img {
   -webkit-transform: scale(1.3);
   transform: scale(1.3);
+}
+.div-info {
+  background-color: lightblue;
 }
 </style>

@@ -7,7 +7,7 @@
   {
     "text": "Studios",
     "icon": "studios.png",
-    "chose": true
+    "chose": false
   },
   {
     "text": "Chambre",

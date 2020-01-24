@@ -1,9 +1,17 @@
 <template>
   <div id="app">
     <router-view />
+    <google-map></google-map>
   </div>
 </template>
-
+<script>
+import GoogleMap from "./components/GoogleMap";
+export default {
+  components: {
+    GoogleMap
+  }
+};
+</script>
 <style>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;

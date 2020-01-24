@@ -12,6 +12,14 @@ Vue.use(Buefy);
 import "bootstrap/dist/css/bootstrap.css";
 //import 'bootstrap-vue/dist/bootstrap-vue.css'
 //Vue.use(BootstrapVue);
+import * as VueGoogleMaps from "vue2-google-maps";
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyDLr1mfqNzZyVReAgRr1ea8LGigxxkOnCE",
+    libraries: "places" // necessary for places input
+  }
+});
 
 Vue.config.productionTip = false;
 

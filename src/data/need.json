@@ -1,0 +1,37 @@
+[
+  {
+    "text": "jardin",
+    "icon": "room.jpg",
+    "chose": false
+  },
+  {
+    "text": "sous-sol",
+    "icon": "apart.jpg",
+    "chose": false
+  },
+  {
+    "text": "gardien",
+    "icon": "room.jpg",
+    "chose": false
+  },
+  {
+    "text": "balcon",
+    "icon": "villa.jpg",
+    "chose": false
+  },
+  {
+    "text": "rez de chausse",
+    "icon": "appart.jpg",
+    "chose": false
+  },
+  {
+    "text": "terrasse",
+    "icon": "apart.jpg",
+    "chose": false
+  },
+  {
+    "text": "belle vue",
+    "icon": "appart.jpg",
+    "chose": false
+  }
+]

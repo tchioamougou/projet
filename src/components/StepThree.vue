@@ -6,7 +6,7 @@
     </div>
     <div class="column is-8">
       <div class="columns">
-        <div class="column is-12 container1">
+        <div class="column is-3 container1">
           <ul class="progressbar">
             <li :class="(steplevel)>0?'active':'none'"></li>
             <li :class="(steplevel)>1?'active':'none'"></li>
@@ -29,14 +29,20 @@
                     Adresse de votre bien
                     <b-field>
                       <b-autocomplete
-                        v-model="form.address"
+                        v-model="form.address.name"
                         placeholder="address"
                         :data="filteredDataObj"
                         field="name"
-                        @select="option => selected = option"
+                        @select="option => form.address = option"
                         icon="account"
                       >
                         <template slot="empty">No results found</template>
+                        <template slot-scope="props">
+                          <div class="diva media">
+                            <b>{{props.option.name}}</b>
+                            - {{props.option.arrondissement}}-{{props.option.region}}
+                          </div>
+                        </template>
                       </b-autocomplete>
                     </b-field>
                     <div class="div-info">
@@ -53,29 +59,13 @@
                       <b-input
                         type="text"
                         placeholder="Commune"
-                        v-model="form.city"
+                        v-model="form.postalCode"
                         icon="account"
                       />
                     </b-field>
                     <div class="div-info">
                       <p>Hello. How are you today?</p>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="column is-11">
-                <div class="columns">
-                  <div class="buttons column is-2">
-                    <b-button
-                      type="is-primary"
-                      :disabled="hidePreviouse"
-                      @click="previouse()"
-                      expanded
-                    >previouse</b-button>
-                  </div>
-                  <div class="column is-8"></div>
-                  <div class="buttons column is-3">
-                    <b-button rounded type="is-primary" expanded @click="next()">next</b-button>
                   </div>
                 </div>
               </div>
@@ -157,6 +147,9 @@
                       <b-field>
                         <b-input type="number" v-model="form.numberOfPiece"></b-input>
                       </b-field>
+                      <div class="div-info">
+                        <p>information</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -167,6 +160,9 @@
                       <b-field>
                         <b-input placeholder type="number" v-model="form.numberOfRoom"></b-input>
                       </b-field>
+                      <div class="div-info">
+                        <p>Hello. How are you today?</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -175,9 +171,15 @@
                 <div class="diva">Autres prieces</div>
                 <section>
                   <div class="block">
-                    <b-checkbox v-model="form.otherRooms" native-value="Cuisine">Cuisine séparée</b-checkbox>
-                    <b-checkbox v-model="form.otherRooms" native-value="Toilette">Toilette séparée</b-checkbox>
-                    <b-checkbox v-model="form.otherRooms" native-value="Eau">Sale d'eau(douche)</b-checkbox>
+                    <div class="diva">
+                      <b-checkbox v-model="form.otherRooms" native-value="Cuisine">Cuisine séparée</b-checkbox>
+                    </div>
+                    <div class="diva">
+                      <b-checkbox v-model="form.otherRooms" native-value="Toilette">Toilette séparée</b-checkbox>
+                    </div>
+                    <div class="diva">
+                      <b-checkbox v-model="form.otherRooms" native-value="Eau">Sale d'eau(douche)</b-checkbox>
+                    </div>
                   </div>
                 </section>
               </div>
@@ -189,17 +191,6 @@
                   </b-field>
                 </div>
                 <div class="div-info">information sur la description du bien</div>
-              </div>
-              <div class="column is-11">
-                <div class="columns">
-                  <div class="buttons column is-3">
-                    <b-button type="is-primary" rounded expanded @click="previouse()">previouse</b-button>
-                  </div>
-                  <div class="column is-7"></div>
-                  <div class="buttons column is-3">
-                    <b-button type="is-danger" rounded expanded @click="next()">next</b-button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -223,7 +214,7 @@
             <div class="column diva is-12">
               grarantie demander
               <b-field>
-                <b-input icon="account" placeholder="prix" type="number" v-model="form.price" />
+                <b-input icon="account" placeholder="prix" type="number" v-model="form.garantie" />
               </b-field>
               <div class="div-info">
                 <p>information sur la grarantie</p>
@@ -232,7 +223,12 @@
             <div class="column diva is-12">
               mode payement
               <b-field>
-                <b-input icon="account" placeholder="prix" type="number" v-model="form.price" />
+                <b-input
+                  icon="account"
+                  placeholder="prix"
+                  type="number"
+                  v-model="form.paymentMode"
+                />
               </b-field>
               <div class="div-info">
                 <p>le payement du loyer est</p>
@@ -242,17 +238,6 @@
                   <li>semestriel</li>
                   <li>mensuel</li>
                 </ul>
-              </div>
-            </div>
-            <div class="column is-11">
-              <div class="columns">
-                <div class="buttons column is-3">
-                  <b-button type="is-primary" rounded expanded @click="previouse()">previouse</b-button>
-                </div>
-                <div class="column is-7"></div>
-                <div class="buttons column is-3">
-                  <b-button type="is-danger" rounded expanded @click="next()">next</b-button>
-                </div>
               </div>
             </div>
           </div>
@@ -304,39 +289,41 @@
                 <p>information sur la video de votre bien</p>
               </div>
             </div>
-            <div class="column is-11">
-              <div class="columns">
-                <div class="buttons column is-3">
-                  <b-button type="is-primary" rounded expanded @click="previouse()">previouse</b-button>
-                </div>
-                <div class="column is-7"></div>
-                <div class="buttons column is-3">
-                  <b-button type="is-danger" rounded expanded @click="next()">next</b-button>
-                </div>
-              </div>
-            </div>
           </div>
         </transition>
         <transition name="steps">
           <div v-if="steps[4].isStep">
             <div>detail sur le postedata</div>
-            <div class="column is-11">
-              <div class="columns">
-                <div class="buttons column is-3">
-                  <b-button type="is-primary" rounded expanded @click="previouse()">&laquo;previous</b-button>
-                </div>
-                <div class="column is-7"></div>
-                <div class="buttons column is-3">
-                  <b-button type="is-danger" rounded expanded @click="poste(form)">final</b-button>
-                </div>
+            <div class="column is 11">
+              <div class="buttons column">
+                <b-button type="is-danger" rounded expanded @click="poste(form)">final</b-button>
               </div>
             </div>
           </div>
         </transition>
+
+        <div class="column is-11" v-if="!steps[4].isStep">
+          <div class="columns">
+            <div class="buttons column is-3">
+              <b-button
+                type="is-danger"
+                :disabled="hidePreviouse"
+                @click="previouse()"
+                expanded
+                rounded
+              >previouse</b-button>
+            </div>
+            <div class="column is-7"></div>
+            <div class="buttons column is-3">
+              <b-button type="is-danger" rounded expanded @click="next()">next</b-button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import { db } from "../plugins/firebase.js";
 import firebase from "firebase";
@@ -356,7 +343,7 @@ export default {
           option.name
             .toString()
             .toLowerCase()
-            .indexOf(this.form.address.toLowerCase()) >= 0
+            .indexOf(this.form.address.name.toLowerCase()) >= 0
         );
       });
     }
@@ -366,11 +353,31 @@ export default {
       showStep1: false,
       showStep2: false,
       steps: [
-        { name: "setp1", level: 0, isStep: false },
-        { name: "step2", level: 1, isStep: false },
-        { name: "step3", level: 2, isStep: false },
-        { name: "step4", level: 3, isStep: false },
-        { name: "final", level: 4, isStep: false }
+        {
+          name: "setp1",
+          level: 0,
+          isStep: false
+        },
+        {
+          name: "step2",
+          level: 1,
+          isStep: false
+        },
+        {
+          name: "step3",
+          level: 2,
+          isStep: false
+        },
+        {
+          name: "step4",
+          level: 3,
+          isStep: false
+        },
+        {
+          name: "final",
+          level: 4,
+          isStep: false
+        }
       ],
       steplevel: 0,
       hidePreviouse: true,
@@ -384,14 +391,21 @@ export default {
       isloading: false,
       uploadValue: 0,
       form: {
-        address: "",
-        city: "",
+        address: {
+          name: "",
+          arrondissement: "",
+          departement: "",
+          region: ""
+        },
+        postalCode: "",
         type: "",
-        numberOfRoom: "",
-        numberofPiece: "",
+        numberOfRoom: 0,
+        numberofPiece: 0,
         description: "",
         otherRooms: [],
-        price: "",
+        price: 0,
+        paymentMode: "",
+        garantie: 0,
         photos: []
       },
       typeAlouer
@@ -417,14 +431,21 @@ export default {
     },
     setToNull() {
       this.form = {
-        address: "",
-        city: "",
+        address: {
+          name: "",
+          arrondissement: "",
+          departement: "",
+          region: ""
+        },
+        postalCode: "",
         type: "",
-        numberOfRoom: "",
-        numberofPiece: "",
+        numberOfRoom: 0,
+        numberofPiece: 0,
         description: "",
         otherRooms: [],
-        price: "",
+        price: 0,
+        paymentMode: "",
+        garantie: 0,
         photos: []
       };
       this.dropFiles = [];
@@ -483,10 +504,13 @@ export default {
     next() {
       this.steplevel += 1;
       this.start();
+      this.hidePreviouse = false;
     },
     previouse() {
       if (this.steplevel == 1) {
         this.hidePreviouse = true;
+      } else {
+        this.hidePreviouse = false;
       }
       this.steplevel -= 1;
       this.start();
@@ -507,14 +531,17 @@ export default {
 h3 {
   margin: 40px 0 0;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: list-item;
   margin-left: 10px;
 }
+
 a {
   color: #42b983;
 }
@@ -525,6 +552,7 @@ a {
   font-style: italic;
   font-family: "Times New Roman", Times, serif;
 }
+
 .image {
   width: 50px;
   height: 50px;
@@ -534,47 +562,58 @@ a {
   margin-left: 10px;
   margin-right: 10px;
 }
+
 .image-check {
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
 }
+
 .header-step {
   text-align: center;
 }
+
 .div-info {
   background-color: lightblue;
 }
+
 .hover01 img {
   -webkit-transform: scale(1);
   transform: scale(1);
   -webkit-transition: 0.3s ease-in-out;
   transition: 0.3s ease-in-out;
 }
+
 .hover01:hover img {
   -webkit-transform: scale(1.3);
   transform: scale(1.3);
 }
+
 .fixed {
   position: fixed;
 }
+
 .is {
   border-color: aqua;
   border-radius: 50%;
 }
+
 .container1 {
   width: 100%;
   position: relative;
   z-index: 1;
 }
+
 .progressbar li {
   float: left;
-  width: 15%;
+  width: 18%;
   position: relative;
   text-align: center;
 }
+
 .progressbar {
   counter-reset: step;
 }
+
 .progressbar li:before {
   content: counter(step);
   counter-increment: step;
@@ -590,6 +629,7 @@ a {
   text-align: center;
   font-weight: bold;
 }
+
 .progressbar li:after {
   content: "";
   position: absolute;
@@ -602,29 +642,37 @@ a {
 }
 
 .progressbar li:first-child:before {
-  background: #3aac5d;
-  border-color: #3aac5d;
-  background: #3aac5d;
+  background: #f15454;
+  border-color: #e75656;
+  background: #e04949;
   color: white;
 }
+
 .progressbar li:first-child:after {
   content: none;
 }
+
 .progressbar li.active + li:after {
-  background: #3aac5d;
+  background: #f54444;
 }
+
 .progressbar li.active + li:before {
-  border-color: #3aac5d;
-  background: #3aac5d;
+  border-color: #ee4c4c;
+  background: #f14949;
   color: white;
 }
+
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .steps-enter-active {
   transition: all 5s ease;
 }
-.steps-enter, .steps-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
+
+.steps-enter,
+.steps-leave-to
+
+/* .slide-fade-leave-active below version 2.1.8 */
+ {
   transform: translateX(10px);
   opacity: 0;
 }
