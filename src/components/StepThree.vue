@@ -390,24 +390,6 @@ export default {
       showroom: false,
       isloading: false,
       uploadValue: 0,
-      form: {
-        address: {
-          name: "",
-          arrondissement: "",
-          departement: "",
-          region: ""
-        },
-        postalCode: "",
-        type: "",
-        numberOfRoom: 0,
-        numberofPiece: 0,
-        description: "",
-        otherRooms: [],
-        price: 0,
-        paymentMode: "",
-        garantie: 0,
-        photos: []
-      },
       typeAlouer
     };
   },
