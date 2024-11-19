@@ -15,7 +15,7 @@
     "bulma": "^0.8.0",
     "core-js": "^3.4.3",
     "dns": "^0.2.2",
-    "firebase": "^7.6.1",
+    "firebase": "^10.9.0",
     "firebaseui": "^4.4.0",
     "google-maps-api-loader": "^1.1.1",
     "jquery": "^3.4.1",
